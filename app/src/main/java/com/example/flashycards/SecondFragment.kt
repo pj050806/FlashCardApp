@@ -41,7 +41,7 @@ class SecondFragment : Fragment() {
 
         binding.buttonSecond.setOnClickListener {findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)}
 
-        viewPager2 = binding.cardFragmentContainer
+        viewPager2 = binding.cardViewpager
         viewPager2.adapter = activity?.let { ScreenSlidePageAdapter(it) }
 
 //        if(savedInstanceState == null) {
@@ -63,7 +63,7 @@ class SecondFragment : Fragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            return CardFragment();
+            return FrameFragment();
         }
     }
 

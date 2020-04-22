@@ -47,7 +47,7 @@ class CardBackFragment : Fragment() {
             .setCustomAnimations(
                 R.animator.card_flip_left_in, R.animator.card_flip_left_out,
                 R.animator.card_flip_right_in, R.animator.card_flip_right_out)
-            .replace(R.id.card_fragment_container, CardFragment())
+            .replace(R.id.frame, CardFragment())
             .addToBackStack(null)
             .commit();
     }

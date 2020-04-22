@@ -25,7 +25,6 @@ class CardFragment : Fragment() {
         _binding = FragmentCardBinding.inflate(inflater, container, false);
         val view = binding.root;
         return view;
-        //return inflater.inflate(R.layout.fragment_card, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

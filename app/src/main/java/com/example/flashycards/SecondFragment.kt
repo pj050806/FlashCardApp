@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.flashycards.databinding.FragmentSecondBinding
 
 /**
@@ -18,7 +18,7 @@ class SecondFragment : Fragment() {
 
     private val NUM_PAGES = 5;
 
-    private lateinit var cardFragment: FrameLayout;
+    private lateinit var viewPager2: ViewPager2;
 
     private var _binding: FragmentSecondBinding? = null;
     private val binding get() = _binding!!;
@@ -31,7 +31,6 @@ class SecondFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSecondBinding.inflate(inflater, container, false);
 
-        cardFragment = binding.cardFragmentContainer
 
         val view = binding.root;
         return view;
@@ -42,12 +41,15 @@ class SecondFragment : Fragment() {
 
         binding.buttonSecond.setOnClickListener {findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)}
 
-        if(savedInstanceState == null) {
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.add(R.id.card_fragment_container, CardFragment())
-                ?.commit();
-        }
+        viewPager2 = binding.cardFragmentContainer
+        viewPager2.adapter = activity?.let { ScreenSlidePageAdapter(it) }
+
+//        if(savedInstanceState == null) {
+//            activity?.supportFragmentManager
+//                ?.beginTransaction()
+//                ?.add(R.id.card_fragment_container, CardFragment())
+//                ?.commit();
+//        }
     }
 
     override fun onDestroyView() {
@@ -63,7 +65,6 @@ class SecondFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             return CardFragment();
         }
-
     }
 
 }

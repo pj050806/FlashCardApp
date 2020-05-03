@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.ViewModel.CardViewModel
 import com.example.flashycards.databinding.FragmentSecondBinding
 
 /**
@@ -17,6 +20,8 @@ import com.example.flashycards.databinding.FragmentSecondBinding
 class SecondFragment : Fragment() {
 
     private val NUM_PAGES = 5;
+
+    private lateinit var cardViewModel: CardViewModel
 
     private lateinit var viewPager2: ViewPager2;
 
@@ -31,6 +36,8 @@ class SecondFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSecondBinding.inflate(inflater, container, false);
 
+        cardViewModel = ViewModelProvider(this).get(CardViewModel::class.java)
+        cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards -> cards?.let {println("observer triggerd")} })
 
         val view = binding.root;
         return view;

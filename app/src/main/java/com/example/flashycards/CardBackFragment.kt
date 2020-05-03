@@ -54,6 +54,6 @@ class CardBackFragment : Fragment() {
 
     fun onCardClicked () {
         flipCard();
-        System.out.println("Hey that's it")
+        println("Hey that's it")
     }
 }

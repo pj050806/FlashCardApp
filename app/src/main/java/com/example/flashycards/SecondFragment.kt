@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ViewModel.CardViewModel
+import com.example.database.FlashCard
 import com.example.flashycards.databinding.FragmentSecondBinding
 
 /**
@@ -24,6 +25,7 @@ class SecondFragment : Fragment() {
     private lateinit var cardViewModel: CardViewModel
 
     private lateinit var viewPager2: ViewPager2;
+    private lateinit var screenSlidePageAdapter: ScreenSlidePageAdapter
 
     private var _binding: FragmentSecondBinding? = null;
     private val binding get() = _binding!!;
@@ -37,7 +39,10 @@ class SecondFragment : Fragment() {
         _binding = FragmentSecondBinding.inflate(inflater, container, false);
 
         cardViewModel = ViewModelProvider(this).get(CardViewModel::class.java)
-        cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards -> cards?.let {println("observer triggerd")} })
+        cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards -> cards?.let {
+            println("observer triggerd ${it}")
+            screenSlidePageAdapter.setCards(it)
+        } })
 
         val view = binding.root;
         return view;
@@ -48,8 +53,9 @@ class SecondFragment : Fragment() {
 
         binding.buttonSecond.setOnClickListener {findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)}
 
+        screenSlidePageAdapter = activity?.let { ScreenSlidePageAdapter(it) }!!
         viewPager2 = binding.cardViewpager
-        viewPager2.adapter = activity?.let { ScreenSlidePageAdapter(it) }
+        viewPager2.adapter = screenSlidePageAdapter
 
 //        if(savedInstanceState == null) {
 //            activity?.supportFragmentManager
@@ -60,17 +66,27 @@ class SecondFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView();
-        _binding = null;
+        super.onDestroyView()
+        _binding = null
     }
 
     private inner class ScreenSlidePageAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+
+        private var cards = emptyList<FlashCard>()
+
         override fun getItemCount(): Int {
-            return NUM_PAGES
+            return cards.size
         }
 
         override fun createFragment(position: Int): Fragment {
-            return FrameFragment();
+            val card = cards.get(position)
+            val fragment = FrameFragment.newInstance(card.frontSide, card.backSide)
+            return fragment
+        }
+
+        internal fun setCards(cards: List<FlashCard>) {
+            this.cards = cards
+            notifyDataSetChanged()
         }
     }
 

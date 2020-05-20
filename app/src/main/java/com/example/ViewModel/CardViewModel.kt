@@ -21,7 +21,7 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {
         val cardDao = AppDatabase.getDatabase(application, viewModelScope).flashCardDao()
         repository = CardRepository(cardDao)
         allCards = repository.allCards
-        Log.d(allCards.value?.size.toString(), "allCards size ViewModel")
+        Log.d("allCards size ViewModel", allCards.value?.size.toString())
     }
 
     suspend fun insert(card: FlashCard) = viewModelScope.launch(Dispatchers.IO) {

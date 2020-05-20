@@ -17,6 +17,17 @@ class CardFragment : Fragment() {
     private var _binding: FragmentCardBinding? = null;
     private val binding get() = _binding!!;
 
+    companion object {
+        fun  newInstance(front: String, back: String): CardFragment {
+            val fragment = CardFragment()
+            val args = Bundle()
+            args.putString("frontSide", front)
+            args.putString("backSide", back)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +43,7 @@ class CardFragment : Fragment() {
 
         cardView = binding.card;
         cardView.setOnClickListener {onCardClicked()}
+        binding.textView.setText(arguments?.getString("frontSide"))
     }
 
     override fun onDestroyView() {
@@ -40,12 +52,13 @@ class CardFragment : Fragment() {
     }
 
     private fun flipCard() {
+        val cardback = newInstance(arguments?.getString("backSide") ?: "","Back")
         parentFragmentManager
             .beginTransaction()
             .setCustomAnimations(
                 R.animator.card_flip_right_in,R.animator.card_flip_right_out,
                 R.animator.card_flip_left_in,R.animator.card_flip_left_out)
-            .replace(R.id.frame, CardBackFragment())
+            .replace(R.id.frame, cardback)
             .addToBackStack(null)
             .commit();
     }

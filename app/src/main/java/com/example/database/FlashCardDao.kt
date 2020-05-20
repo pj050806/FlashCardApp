@@ -9,10 +9,10 @@ interface FlashCardDao {
     fun getAll() : LiveData<List<FlashCard>>
 
     @Query("SELECT * FROM FlashCard WHERE uid IN (:cardIds)")
-    fun loadAllByIds(cardIds: IntArray): List<FlashCard>
+    fun loadAllByIds(cardIds: IntArray): LiveData<List<FlashCard>>
 
     @Query("SELECT * FROM FlashCard WHERE label IN (:label)")
-    fun loadAllByLabel(label: String): List<FlashCard>
+    fun loadAllByLabel(label: String): LiveData<List<FlashCard>>
 
     @Query("DELETE FROM FLASHCARD")
     suspend fun deleteAll()

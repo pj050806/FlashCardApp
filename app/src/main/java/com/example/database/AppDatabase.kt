@@ -19,6 +19,11 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             println("onOpen")
             super.onOpen(db)
+        }
+
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            println("onCreate")
+            super.onCreate(db)
 
             INSTANCE?.let { database ->
                 scope.launch {
@@ -29,10 +34,10 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(flashCardDao: FlashCardDao) {
-            flashCardDao.deleteAll()
+            //flashCardDao.deleteAll()
 
-            val firstCard = FlashCard(91,"Wort1 vorn", "Wort1 hinten", "")
-            val secondCard = FlashCard(92,"Wort2 vorn", "Wort2 hinten", "")
+            val firstCard = FlashCard(91,"Wort1 vorn", "Wort1 hinten", "Testwörter1")
+            val secondCard = FlashCard(92,"Wort2 vorn", "Wort2 hinten", "Testwörter1")
             flashCardDao.insert(firstCard)
             println("first insert")
             flashCardDao.insert(secondCard)

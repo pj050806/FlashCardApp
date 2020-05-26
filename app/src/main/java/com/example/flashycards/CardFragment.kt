@@ -12,10 +12,10 @@ import com.example.flashycards.databinding.FragmentCardBinding
  * A simple [Fragment] subclass.
  */
 class CardFragment : Fragment() {
-    private lateinit var cardView: CardView;
+    private lateinit var cardView: CardView
 
-    private var _binding: FragmentCardBinding? = null;
-    private val binding get() = _binding!!;
+    private var _binding: FragmentCardBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun  newInstance(front: String, back: String): CardFragment {
@@ -33,26 +33,25 @@ class CardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCardBinding.inflate(inflater, container, false);
-        val view = binding.root;
-        return view;
+        _binding = FragmentCardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cardView = binding.card;
+        cardView = binding.card
         cardView.setOnClickListener {onCardClicked()}
-        binding.textView.setText(arguments?.getString("frontSide"))
+        binding.textView.text = arguments?.getString("frontSide")
     }
 
     override fun onDestroyView() {
-        super.onDestroyView();
-        _binding = null;
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun flipCard() {
-        val cardback = newInstance(arguments?.getString("backSide") ?: "","Back")
+        val cardback = newInstance(arguments?.getString("backSide") ?: "", arguments?.getString("frontSide") ?: "")
         parentFragmentManager
             .beginTransaction()
             .setCustomAnimations(
@@ -60,11 +59,11 @@ class CardFragment : Fragment() {
                 R.animator.card_flip_left_in,R.animator.card_flip_left_out)
             .replace(R.id.frame, cardback)
             .addToBackStack(null)
-            .commit();
+            .commit()
     }
 
-    fun onCardClicked () {
-        flipCard();
+    private fun onCardClicked () {
+        flipCard()
         println("Hey that's it")
     }
 }

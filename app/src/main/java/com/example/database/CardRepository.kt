@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 class CardRepository (private val cardDao: FlashCardDao) {
     val allCards: LiveData<List<FlashCard>> = cardDao.loadAllByLabel("Testwörter1")
 
-    suspend fun insert(fashCard:FlashCard) {
-        cardDao.insert(fashCard)
+    suspend fun insert(flashCard:FlashCard) {
+        cardDao.insert(flashCard)
     }
 }

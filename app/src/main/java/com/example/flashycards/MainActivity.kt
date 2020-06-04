@@ -3,7 +3,12 @@ package com.example.flashycards
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.ViewModel.CardViewModel
+import com.example.database.FlashCard
+import com.example.flashycards.databinding.AddCardBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
+            newCardAlert()
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
@@ -34,5 +40,30 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun newCard() {
+        val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
+        val newCard = FlashCard("inserted1_front","iserted1_back","Testwörter1")
+        viewModel.insert(newCard)
+    }
+
+    private fun newCardAlert() {
+
+
+        val builder: AlertDialog.Builder? = this.let { AlertDialog.Builder(it) }
+        val addCardLayout = layoutInflater.inflate(R.layout.add_card, null)
+        val bind = AddCardBinding.bind(addCardLayout)
+
+        builder?.setMessage("Enter new card!")
+            ?.setTitle("New Card")
+            ?.setPositiveButton("Add") { dialog, which ->
+                println("Dialog works!!!")
+                println(bind.editTextCardFront.text)
+                println(bind.editTextCardBack.text)
+                println(bind.editTextLabel.text)
+            }?.setNegativeButton("Cancel") {dialog, _ ->  dialog.cancel()}
+            ?.setView(addCardLayout)
+            ?.create()?.show()
     }
 }

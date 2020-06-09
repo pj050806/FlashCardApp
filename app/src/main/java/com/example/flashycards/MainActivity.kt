@@ -3,8 +3,10 @@ package com.example.flashycards
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.ViewModel.CardViewModel
 import com.example.database.FlashCard
@@ -42,28 +44,41 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun newCard() {
+    private fun insertNewCard(front: String, back: String, label: String) {
         val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
-        val newCard = FlashCard("inserted1_front","iserted1_back","Testwörter1")
+        val newCard = FlashCard(front,back,label)
         viewModel.insert(newCard)
     }
 
     private fun newCardAlert() {
 
-
-        val builder: AlertDialog.Builder? = this.let { AlertDialog.Builder(it) }
+        val builder = AlertDialog.Builder(this)
         val addCardLayout = layoutInflater.inflate(R.layout.add_card, null)
         val bind = AddCardBinding.bind(addCardLayout)
 
-        builder?.setMessage("Enter new card!")
-            ?.setTitle("New Card")
-            ?.setPositiveButton("Add") { dialog, which ->
+        val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
+
+
+        viewModel.allLabels.observe(this, Observer { labelList ->
+                bind.spinnerLabel.adapter= ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, labelList)
+        })
+
+
+        builder.setMessage("Enter new card!")
+            .setTitle("New Card")
+            .setPositiveButton("Add") { dialog, which ->
                 println("Dialog works!!!")
                 println(bind.editTextCardFront.text)
                 println(bind.editTextCardBack.text)
-                println(bind.editTextLabel.text)
-            }?.setNegativeButton("Cancel") {dialog, _ ->  dialog.cancel()}
-            ?.setView(addCardLayout)
-            ?.create()?.show()
+                println(bind.spinnerLabel.selectedItem)
+                insertNewCard(bind.editTextCardFront.text.toString(),
+                    bind.editTextCardBack.text.toString(),
+                    bind.spinnerLabel.selectedItem.toString())
+            }.setNegativeButton("Cancel") {
+                    dialog, _ ->  dialog.cancel()
+                    viewModel.allLabels.removeObservers(this)
+                }
+            .setView(addCardLayout)
+            .create().show()
     }
 }

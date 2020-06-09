@@ -20,15 +20,13 @@ import com.example.flashycards.databinding.FragmentSecondBinding
  */
 class SecondFragment : Fragment() {
 
-    private val NUM_PAGES = 5;
-
     private lateinit var cardViewModel: CardViewModel
 
-    private lateinit var viewPager2: ViewPager2;
+    private lateinit var viewPager2: ViewPager2
     private lateinit var screenSlidePageAdapter: ScreenSlidePageAdapter
 
-    private var _binding: FragmentSecondBinding? = null;
-    private val binding get() = _binding!!;
+    private var _binding: FragmentSecondBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -36,16 +34,15 @@ class SecondFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        _binding = FragmentSecondBinding.inflate(inflater, container, false);
+        _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
         cardViewModel = ViewModelProvider(this).get(CardViewModel::class.java)
-        cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards -> cards?.let {
-            println("observer triggerd ${it}")
+        cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards ->  cards?.let {
+            println("observer triggerd $it")
             screenSlidePageAdapter.setCards(it)
         } })
 
-        val view = binding.root;
-        return view;
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +65,7 @@ class SecondFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        cardViewModel.allCards.removeObservers(viewLifecycleOwner)
     }
 
     private inner class ScreenSlidePageAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
@@ -79,9 +77,8 @@ class SecondFragment : Fragment() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            val card = cards.get(position)
-            val fragment = FrameFragment.newInstance(card.frontSide, card.backSide)
-            return fragment
+            val card = cards[position]
+            return FrameFragment.newInstance(card.frontSide, card.backSide)
         }
 
         internal fun setCards(cards: List<FlashCard>) {
@@ -89,5 +86,4 @@ class SecondFragment : Fragment() {
             notifyDataSetChanged()
         }
     }
-
 }

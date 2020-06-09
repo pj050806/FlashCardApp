@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment
 class FrameFragment : Fragment() {
 
     companion object{
-        val front = ""
-        val back = ""
+        lateinit var front :String
+        lateinit var back :String
 
         fun  newInstance(front: String, back: String): FrameFragment {
             val frameFragment = FrameFragment()
@@ -21,6 +21,8 @@ class FrameFragment : Fragment() {
             val args = Bundle()
             args.putString("frontSide", front)
             args.putString("backSide", back)
+            this.front = front
+            this.back = back
             frameFragment.arguments = args
 //            frameFragment.childFragmentManager
 //                .beginTransaction()
@@ -36,16 +38,16 @@ class FrameFragment : Fragment() {
     ): View? {
 
         if(savedInstanceState == null) {
-            val front = arguments?.getString("frontSide") ?: "NOTFOUND"
-            val back = arguments?.getString("backSide") ?: "NOTFOUND"
+            front = arguments?.getString("frontSide") ?: "NOTFOUND"
+            back = arguments?.getString("backSide") ?: "NOTFOUND"
             val cardFragment = CardFragment.newInstance(front, back)
             childFragmentManager
                 ?.beginTransaction()
                 ?.add(R.id.frame, cardFragment)
                 ?.commit();
         } else {
-            val front = savedInstanceState.getString("frontSide") ?: "EMPTY"
-            val back = savedInstanceState.getString("backSide") ?: "EMPTY"
+            //front = savedInstanceState.getString("frontSide") ?: "EMPTY"
+            //back = savedInstanceState.getString("backSide") ?: "EMPTY"
             childFragmentManager
                 ?.beginTransaction()
                 ?.add(R.id.frame, CardFragment.newInstance(front, back))

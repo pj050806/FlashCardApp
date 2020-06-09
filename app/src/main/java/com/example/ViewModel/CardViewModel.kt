@@ -15,17 +15,20 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {
 
     private  val repository: CardRepository
     val allCards: LiveData<List<FlashCard>>
+    val allLabels: LiveData<List<String>>
 
     init {
         println("CardViewModel init...")
         val cardDao = AppDatabase.getDatabase(application, viewModelScope).flashCardDao()
         repository = CardRepository(cardDao)
         allCards = repository.allCards
+        allLabels = repository.allLabels
         Log.d("allCards size ViewModel", allCards.value?.size.toString())
     }
 
-    suspend fun insert(card: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
+    fun insert(card: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(card)
     }
+
 }
 

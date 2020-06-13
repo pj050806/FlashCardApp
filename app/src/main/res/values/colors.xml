@@ -3,6 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="card_front">#ff00ff</color>
+    <color name="card_front">#6D03A9F4</color>
     <color name="card_back">#ffff00</color>
+    <color name="card_frame">#B0E3DFDF</color>
 </resources>

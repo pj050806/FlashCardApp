@@ -42,16 +42,16 @@ class FrameFragment : Fragment() {
             back = arguments?.getString("backSide") ?: "NOTFOUND"
             val cardFragment = CardFragment.newInstance(front, back)
             childFragmentManager
-                ?.beginTransaction()
-                ?.add(R.id.frame, cardFragment)
-                ?.commit();
+                .beginTransaction()
+                .add(R.id.frame, cardFragment)
+                .commit();
         } else {
             //front = savedInstanceState.getString("frontSide") ?: "EMPTY"
             //back = savedInstanceState.getString("backSide") ?: "EMPTY"
             childFragmentManager
-                ?.beginTransaction()
-                ?.add(R.id.frame, CardFragment.newInstance(front, back))
-                ?.commit();
+                .beginTransaction()
+                .add(R.id.frame, CardFragment.newInstance(front, back))
+                .commit();
         }
 
         // Inflate the layout for this fragment

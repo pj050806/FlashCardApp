@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ViewModel.CardViewModel
@@ -36,12 +36,17 @@ class SecondFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
-        cardViewModel = ViewModelProvider(this).get(CardViewModel::class.java)
+        val args: SecondFragmentArgs by navArgs()
+        val label :String = args.dbLabel
+        println(label)
+
+        //val model: CardViewModel by viewModels { CardViewModelFactory(requireActivity().application, label)}
+        cardViewModel = (activity as MainActivity).viewModel
+        cardViewModel.initAllCards(label)
         cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards ->  cards?.let {
             println("observer triggerd $it")
             screenSlidePageAdapter.setCards(it)
         } })
-
         return binding.root
     }
 
@@ -53,13 +58,6 @@ class SecondFragment : Fragment() {
         screenSlidePageAdapter = activity?.let { ScreenSlidePageAdapter(it) }!!
         viewPager2 = binding.cardViewpager
         viewPager2.adapter = screenSlidePageAdapter
-
-//        if(savedInstanceState == null) {
-//            activity?.supportFragmentManager
-//                ?.beginTransaction()
-//                ?.add(R.id.card_fragment_container, CardFragment())
-//                ?.commit();
-//        }
     }
 
     override fun onDestroyView() {

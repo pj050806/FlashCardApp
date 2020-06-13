@@ -11,21 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ViewModel.CardViewModel
 import com.example.database.FlashCard
 import com.example.flashycards.databinding.AddCardBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var viewModel: CardViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
+        fab.setOnClickListener {
             newCardAlert()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
         }
+
+        viewModel = ViewModelProvider(this)[CardViewModel::class.java]
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertNewCard(front: String, back: String, label: String) {
-        val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
         val newCard = FlashCard(front,back,label)
         viewModel.insert(newCard)
     }
@@ -57,8 +57,6 @@ class MainActivity : AppCompatActivity() {
         val bind = AddCardBinding.bind(addCardLayout)
 
         val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
-
-
         viewModel.allLabels.observe(this, Observer { labelList ->
                 bind.spinnerLabel.adapter= ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, labelList)
         })

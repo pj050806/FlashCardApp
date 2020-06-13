@@ -3,11 +3,15 @@ package com.example.database
 import androidx.lifecycle.LiveData
 
 class CardRepository (private val cardDao: FlashCardDao) {
-    val allCards: LiveData<List<FlashCard>> = cardDao.loadAllByLabel("Testwörter1")
+
     val allLabels: LiveData<List<String>> = cardDao.getAllLabels()
+    lateinit var allCards: LiveData<List<FlashCard>>
 
     suspend fun insert(flashCard:FlashCard) {
         cardDao.insert(flashCard)
     }
 
+    fun setSelectedLabel(label: String) {
+        allCards = cardDao.loadAllByLabel(label)
+    }
 }

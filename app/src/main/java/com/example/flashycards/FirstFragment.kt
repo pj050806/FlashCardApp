@@ -55,7 +55,7 @@ class FirstFragment : Fragment() {
         (activity as MainActivity).viewModel.allLabels.observe(viewLifecycleOwner, myObserver)
         val viewManager: RecyclerView.LayoutManager = GridLayoutManager(context,2)
         binding.recyclerviewCardpile.apply {
-            //setHasFixedSize(true)
+            setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
         }

@@ -14,4 +14,12 @@ class CardRepository (private val cardDao: FlashCardDao) {
     fun setSelectedLabel(label: String) {
         allCards = cardDao.loadAllByLabel(label)
     }
+
+    fun deleteCard(flashCard: FlashCard) {
+        cardDao.delete(flashCard)
+    }
+
+    suspend fun deleteCard(front: String, back: String) {
+        cardDao.delete(front, back)
+    }
 }

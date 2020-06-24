@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.flashycards.databinding.FragmentCardBinding
@@ -42,7 +43,25 @@ class CardFragment : Fragment() {
 
         cardView = binding.card
         cardView.setOnClickListener {onCardClicked()}
+        cardView.setOnLongClickListener {onCardLongClicked()}
         binding.textView.text = arguments?.getString("frontSide")
+    }
+
+    private fun onCardLongClicked(): Boolean {
+        println("card was long clicked")
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("Delete Card?")
+            .setMessage("Do you want to delete the card?")
+            .setPositiveButton("Delete!")  { _,_ ->
+                println("delete card)")
+                (activity as MainActivity).viewModel.deleteCard(arguments?.getString("frontSide") ?: "", arguments?.getString("backSide") ?: "")
+            }
+            .setNegativeButton("DON'T Delete") { dialog, _ ->
+                dialog.cancel()
+            }
+            .create().show()
+        return true
     }
 
     override fun onDestroyView() {

@@ -32,5 +32,11 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {
         allCards = repository.allCards
     }
 
+    fun deleteCard(card: FlashCard) = repository.deleteCard(card)
+
+    fun deleteCard(front: String, back: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteCard(front, back)
+    }
+
 }
 

@@ -77,17 +77,24 @@ class FirstFragment : Fragment() {
             return  MyViewHolder(textView)
         }
 
-        override fun getItemCount(): Int = myDataset.size
+        override fun getItemCount(): Int = myDataset.size + 1
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.textView.text = myDataset[position]
+            if(position < myDataset.size) {
 
-            holder.itemView.setOnClickListener {
-                val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(myDataset[position])
-                it.findNavController().navigate(action)
+                holder.textView.text = myDataset[position]
+
+                holder.itemView.setOnClickListener {
+                    val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(myDataset[position])
+                    it.findNavController().navigate(action)
+                }
+            } else {
+                holder.textView.text = "Add New Label..."
+
+                holder.itemView.setOnClickListener{
+                    println("TODO add new Label")
+                }
             }
         }
-
-
     }
 }

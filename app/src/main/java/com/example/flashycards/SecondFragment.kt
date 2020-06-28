@@ -40,7 +40,6 @@ class SecondFragment : Fragment() {
         val label :String = args.dbLabel
         println(label)
 
-        //val model: CardViewModel by viewModels { CardViewModelFactory(requireActivity().application, label)}
         cardViewModel = (activity as MainActivity).viewModel
         cardViewModel.initAllCards(label)
         cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards ->  cards?.let {
@@ -69,18 +68,23 @@ class SecondFragment : Fragment() {
     private inner class ScreenSlidePageAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
         private var cards = emptyList<FlashCard>()
-
-        override fun getItemCount(): Int {
-            return cards.size
-        }
+        private var cardIds = emptyList<Long>()
 
         override fun createFragment(position: Int): Fragment {
             val card = cards[position]
             return FrameFragment.newInstance(card.frontSide, card.backSide)
         }
 
+        override fun getItemCount(): Int = cards.size
+
+        override fun getItemId(position: Int): Long = cards[position].hashCode().toLong()
+
+        override fun containsItem(itemId: Long): Boolean = cardIds.contains(itemId)
+
         internal fun setCards(cards: List<FlashCard>) {
             this.cards = cards
+            if(this.cardIds.isEmpty())
+                this.cardIds = cards.map { it.hashCode().toLong() }
             notifyDataSetChanged()
         }
     }

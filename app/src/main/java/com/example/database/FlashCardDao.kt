@@ -14,7 +14,7 @@ interface FlashCardDao {
     @Query("SELECT * FROM FlashCard WHERE uid IN (:cardIds)")
     fun loadAllByIds(cardIds: IntArray): LiveData<List<FlashCard>>
 
-    @Query("SELECT * FROM FlashCard WHERE label IN (:label) ORDER BY RANDOM()")
+    @Query("SELECT * FROM FlashCard WHERE label IN (:label) ORDER BY uid")
     fun loadAllByLabel(label: String): LiveData<List<FlashCard>>
 
     @Query("DELETE FROM FlashCard")
@@ -26,6 +26,6 @@ interface FlashCardDao {
     @Delete
     fun delete(vararg flashCard: FlashCard)
 
-    @Query("DELETE FROM FlashCard WHERE front_side = :front AND back_side = :back")
+    @Query("DELETE FROM FlashCard WHERE front_side IN(:front, :back) AND back_side IN(:front, :back)")
     suspend fun delete(front: String, back: String)
 }

@@ -6,4 +6,17 @@
     <color name="card_front">#6D03A9F4</color>
     <color name="card_back">#ffff00</color>
     <color name="card_frame">#B0E3DFDF</color>
+
+    <integer-array name="cardColors">
+        <item>@android:color/white</item>
+        <item>@android:color/holo_red_light</item>
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_green_light</item>
+        <item>@android:color/holo_orange_light</item>
+        <item>@android:color/holo_purple</item>
+        <item>@android:color/holo_orange_dark</item>
+        <item>@android:color/holo_green_dark</item>
+        <item>@android:color/holo_blue_dark</item>
+        <item>@android:color/holo_red_dark</item>
+    </integer-array>
 </resources>

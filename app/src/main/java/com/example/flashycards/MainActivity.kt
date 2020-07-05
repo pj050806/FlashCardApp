@@ -1,8 +1,11 @@
 package com.example.flashycards
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -58,7 +61,12 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProvider(this)[CardViewModel::class.java]
         viewModel.allLabels.observe(this, Observer { labelList ->
-                bind.spinnerLabel.adapter= ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, labelList)
+                bind.spinnerLabel.adapter = ArrayAdapter(this,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    labelList)
+            bind.spinnerColor.adapter = ColorAdapter(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                resources.getIntArray(R.array.cardColors).asList())
         })
 
 
@@ -78,5 +86,21 @@ class MainActivity : AppCompatActivity() {
                 }
             .setView(addCardLayout)
             .create().show()
+    }
+
+    inner class ColorAdapter(context: Context, layout: Int, values: List<Int>) : ArrayAdapter<Int>(context, layout, values) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val colorValue = super.getItem(position)
+            val view =  super.getView(position, convertView, parent)
+            view.setBackgroundColor(colorValue ?: android.R.color.white)
+            return view
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = super.getDropDownView(position, convertView, parent)
+            val colorValue = super.getItem(position)
+            view.setBackgroundColor(colorValue ?: android.R.color.white)
+         return view
+        }
     }
 }

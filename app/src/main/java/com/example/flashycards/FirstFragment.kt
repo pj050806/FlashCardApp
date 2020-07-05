@@ -25,11 +25,11 @@ class FirstFragment : Fragment() {
     private var allLabels: MutableList<String> = emptyList<String>().toMutableList()
     private val viewAdapter: RecyclerView.Adapter<*> = MyAdapter(allLabels)
     private val myObserver = Observer<List<String>> {
-        println("observer triggered labellist: ${it}")
+        println("observer triggered labellist: $it")
         allLabels.clear()
         allLabels.addAll(it)
         viewAdapter.notifyDataSetChanged()
-        println("set labellist: ${allLabels}")
+        println("set labellist: $allLabels")
     }
 
     override fun onCreateView(

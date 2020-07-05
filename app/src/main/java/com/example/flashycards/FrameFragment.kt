@@ -52,7 +52,7 @@ class FrameFragment : Fragment() {
         } else {
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.frame, CardFragment.newInstance(front, back))
+                .replace(R.id.frame, CardFragment.newInstance(front, back))
                 .commit()
         }
 

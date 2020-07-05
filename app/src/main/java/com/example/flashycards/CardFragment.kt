@@ -77,7 +77,6 @@ class CardFragment : Fragment() {
                 R.animator.card_flip_right_in,R.animator.card_flip_right_out,
                 R.animator.card_flip_left_in,R.animator.card_flip_left_out)
             .replace(R.id.frame, cardback)
-            .addToBackStack(null)
             .commit()
     }
 

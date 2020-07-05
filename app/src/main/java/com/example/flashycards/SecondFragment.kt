@@ -43,7 +43,7 @@ class SecondFragment : Fragment() {
         cardViewModel = (activity as MainActivity).viewModel
         cardViewModel.initAllCards(label)
         cardViewModel.allCards.observe(viewLifecycleOwner, Observer { cards ->  cards?.let {
-            println("observer triggerd $it")
+            println("observer triggered $it")
             screenSlidePageAdapter.setCards(it)
         } })
         return binding.root
@@ -75,11 +75,11 @@ class SecondFragment : Fragment() {
             return FrameFragment.newInstance(card.frontSide, card.backSide)
         }
 
-        override fun getItemCount(): Int = cards.size
+        override fun getItemCount() = cards.size
 
-        override fun getItemId(position: Int): Long = cards[position].hashCode().toLong()
+        override fun getItemId(position: Int) = cards[position].hashCode().toLong()
 
-        override fun containsItem(itemId: Long): Boolean = cardIds.contains(itemId)
+        override fun containsItem(itemId: Long) = cardIds.contains(itemId)
 
         internal fun setCards(cards: List<FlashCard>) {
             this.cards = cards

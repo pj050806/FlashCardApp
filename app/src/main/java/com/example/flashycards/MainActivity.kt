@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun insertNewCard(front: String, back: String, label: String) {
+    fun insertNewCard(front: String, back: String, label: String) {
         val newCard = FlashCard(front,back,label)
         viewModel.insert(newCard)
     }

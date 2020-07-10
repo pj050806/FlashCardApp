@@ -13,19 +13,19 @@ import com.example.flashycards.databinding.FragmentCardBackBinding
  * A simple [Fragment] subclass.
  */
 class CardBackFragment : Fragment() {
-    private lateinit var cardView: CardView;
-    private lateinit var cardFragment: Fragment;
-    private var _binding: FragmentCardBackBinding? = null;
-    private val binding get() = _binding!!;
+    private lateinit var cardView: CardView
+    private lateinit var cardFragment: Fragment
+    private var _binding: FragmentCardBackBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCardBackBinding.inflate(inflater, container, false);
-        val view = binding.root;
-        return view;
+        _binding = FragmentCardBackBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,8 +37,8 @@ class CardBackFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView();
-        _binding = null;
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun flipCard() {
@@ -48,11 +48,11 @@ class CardBackFragment : Fragment() {
                 R.animator.card_flip_left_in, R.animator.card_flip_left_out,
                 R.animator.card_flip_right_in, R.animator.card_flip_right_out)
             .replace(R.id.frame, CardFragment())
-            .commit();
+            .commit()
     }
 
-    fun onCardClicked () {
-        flipCard();
+    private fun onCardClicked () {
+        flipCard()
         println("Hey that's it")
     }
 }

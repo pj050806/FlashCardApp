@@ -88,13 +88,13 @@ class FirstFragment : Fragment() {
 
                 holder.binding.textViewLabel.text = myDataset[position]
 
-                holder.itemView.setOnClickListener {
+                holder.binding.cardViewLabel.setOnClickListener {
                     val action = FirstFragmentDirections.actionFirstFragmentToSecondFragment(myDataset[position])
                     it.findNavController().navigate(action)
                 }
             } else {
                 holder.binding.textViewLabel.text = getString(R.string.newLabel)
-                holder.itemView.setOnClickListener{
+                holder.binding.cardViewLabel.setOnClickListener{
                     println("TODO add new Label")
                     addLabelAlert()
                 }

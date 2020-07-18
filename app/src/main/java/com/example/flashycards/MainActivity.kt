@@ -1,12 +1,14 @@
 package com.example.flashycards
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -48,13 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun insertNewCard(front: String, back: String, label: String) {
-        val newCard = FlashCard(front,back,label)
+    fun insertNewCard(front: String, back: String, label: String, color: Int) {
+        val newCard = FlashCard(front, back, label, color)
         viewModel.insert(newCard)
     }
 
     private fun newCardAlert() {
-
         val builder = AlertDialog.Builder(this)
         val addCardLayout = layoutInflater.inflate(R.layout.add_card, null)
         val bind = AddCardBinding.bind(addCardLayout)
@@ -69,17 +70,17 @@ class MainActivity : AppCompatActivity() {
                 resources.getIntArray(R.array.cardColors).asList())
         })
 
-
         builder.setMessage("Enter new card!")
             .setTitle("New Card")
-            .setPositiveButton("Add") { dialog, which ->
+            .setPositiveButton("Add") { _, _ ->
                 println("Dialog works!!!")
                 println(bind.editTextCardFront.text)
                 println(bind.editTextCardBack.text)
                 println(bind.spinnerLabel.selectedItem)
                 insertNewCard(bind.editTextCardFront.text.toString(),
                     bind.editTextCardBack.text.toString(),
-                    bind.spinnerLabel.selectedItem.toString())
+                    bind.spinnerLabel.selectedItem.toString(),
+                    bind.spinnerColor.selectedItem as Int)
             }.setNegativeButton("Cancel") {
                     dialog, _ ->  dialog.cancel()
                     viewModel.allLabels.removeObservers(this)
@@ -92,7 +93,8 @@ class MainActivity : AppCompatActivity() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val colorValue = super.getItem(position)
             val view =  super.getView(position, convertView, parent)
-            view.setBackgroundColor(colorValue ?: android.R.color.white)
+            view.setBackgroundColor(colorValue ?: Color.WHITE)
+            (view as TextView).text = Integer.toHexString(colorValue ?: Color.WHITE)
             return view
         }
 
@@ -100,6 +102,7 @@ class MainActivity : AppCompatActivity() {
             val view = super.getDropDownView(position, convertView, parent)
             val colorValue = super.getItem(position)
             view.setBackgroundColor(colorValue ?: android.R.color.white)
+            (view as TextView).text = Integer.toHexString(colorValue ?: Color.WHITE)
          return view
         }
     }

@@ -7,7 +7,22 @@
     <color name="card_back">#ffff00</color>
     <color name="card_frame">#B0E3DFDF</color>
 
+    <color name="red">#fa8072</color>
+    <color name="green">#2ecc71</color>
+    <color name="purple">#884ea0</color>
+    <color name="green_light">#81c784</color>
+    <color name="blue">#3498db</color>
+    <color name="orange">#ffd54f</color>
+    <color name="yellow">#fff176</color>
+
     <integer-array name="cardColors">
+        <item>@color/red</item>
+        <item>@color/green</item>
+        <item>@color/purple</item>
+        <item>@color/green_light</item>
+        <item>@color/blue</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
         <item>@android:color/white</item>
         <item>@android:color/holo_red_light</item>
         <item>@android:color/holo_blue_light</item>

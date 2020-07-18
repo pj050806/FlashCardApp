@@ -1,5 +1,6 @@
 package com.example.flashycards
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ class FrameFragment : Fragment() {
         lateinit var frame: FrameLayout
         lateinit var front: String
         lateinit var back: String
+        var color: Int = Color.WHITE
 
         fun  newInstance(front: String, back: String): FrameFragment {
             val frameFragment = FrameFragment()
@@ -32,27 +34,33 @@ class FrameFragment : Fragment() {
             frameFragment.arguments = args
             return frameFragment
         }
+
+        fun newInstance(front: String, back: String, color: Int): FrameFragment {
+            val frameFragment = this.newInstance(front, back)
+            frameFragment.arguments?.putInt("color", color)
+            this.color = color
+            return frameFragment
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentFrameBinding.inflate(inflater, container, false)
 
         if(savedInstanceState == null) {
             front = arguments?.getString("frontSide") ?: "NOTFOUND"
             back = arguments?.getString("backSide") ?: "NOTFOUND"
-            val cardFragment = CardFragment.newInstance(front, back)
+            color = arguments?.getInt("color") ?: Color.WHITE
             childFragmentManager
                 .beginTransaction()
-                .add(R.id.frame, cardFragment)
+                .add(R.id.frame, CardFragment.newInstance(front, back, color))
                 .commit()
         } else {
             childFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame, CardFragment.newInstance(front, back))
+                .replace(R.id.frame, CardFragment.newInstance(front, back, color))
                 .commit()
         }
 

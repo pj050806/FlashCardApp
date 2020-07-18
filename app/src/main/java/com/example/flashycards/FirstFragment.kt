@@ -1,5 +1,6 @@
 package com.example.flashycards
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,7 +113,7 @@ class FirstFragment : Fragment() {
                 .setPositiveButton("Add") { _, _ ->
                     println("Dialog works!!!")
                     val text = textEdit.text.toString()
-                    (activity as MainActivity).insertNewCard(text, text, text)
+                    (activity as MainActivity).insertNewCard(text, text, text, Color.WHITE)
                 }
                 .setNegativeButton("Cancel") {dialog, _ ->
                     dialog.cancel()

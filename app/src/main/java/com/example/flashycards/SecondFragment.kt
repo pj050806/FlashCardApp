@@ -72,7 +72,7 @@ class SecondFragment : Fragment() {
 
         override fun createFragment(position: Int): Fragment {
             val card = cards[position]
-            return FrameFragment.newInstance(card.frontSide, card.backSide)
+            return FrameFragment.newInstance(card.frontSide, card.backSide, card.color)
         }
 
         override fun getItemCount() = cards.size

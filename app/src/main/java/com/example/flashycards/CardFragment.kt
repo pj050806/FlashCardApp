@@ -1,5 +1,6 @@
 package com.example.flashycards
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,11 +20,12 @@ class CardFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun  newInstance(front: String, back: String): CardFragment {
+        fun  newInstance(front: String, back: String, color: Int): CardFragment {
             val fragment = CardFragment()
             val args = Bundle()
             args.putString("frontSide", front)
             args.putString("backSide", back)
+            args.putInt("color", color)
             fragment.arguments = args
             return fragment
         }
@@ -45,6 +47,7 @@ class CardFragment : Fragment() {
         cardView.setOnClickListener {onCardClicked()}
         cardView.setOnLongClickListener {onCardLongClicked()}
         binding.textView.text = arguments?.getString("frontSide")
+        binding.card.setCardBackgroundColor(arguments?.getInt("color") ?: Color.WHITE)
     }
 
     private fun onCardLongClicked(): Boolean {
@@ -70,7 +73,11 @@ class CardFragment : Fragment() {
     }
 
     private fun flipCard() {
-        val cardback = newInstance(arguments?.getString("backSide") ?: "", arguments?.getString("frontSide") ?: "")
+        val cardback = newInstance(
+            arguments?.getString("backSide") ?: "",
+            arguments?.getString("frontSide") ?: "",
+            arguments?.getInt("color") ?: Color.WHITE
+        )
         parentFragmentManager
             .beginTransaction()
             .setCustomAnimations(

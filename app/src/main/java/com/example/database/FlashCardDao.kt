@@ -5,7 +5,7 @@ import androidx.room.*
 
 @Dao
 interface FlashCardDao {
-    @Query("SELECT DISTINCT label FROM FlashCard")
+    @Query("SELECT * FROM CardPile")
     fun getAllLabels() : LiveData<List<String>>
 
     @Query("SELECT * FROM FlashCard")
@@ -14,7 +14,7 @@ interface FlashCardDao {
     @Query("SELECT * FROM FlashCard WHERE uid IN (:cardIds)")
     fun loadAllByIds(cardIds: IntArray): LiveData<List<FlashCard>>
 
-    @Query("SELECT * FROM FlashCard WHERE label IN (:label) ORDER BY uid")
+    @Query("SELECT * FROM FlashCard WHERE label IN (:label) ORDER BY RANDOM()")
     fun loadAllByLabel(label: String): LiveData<List<FlashCard>>
 
     @Query("DELETE FROM FlashCard")
@@ -22,6 +22,9 @@ interface FlashCardDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(flashCard: FlashCard)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(pile: CardPile)
 
     @Delete
     fun delete(vararg flashCard: FlashCard)

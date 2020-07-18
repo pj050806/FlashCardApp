@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.database.AppDatabase
+import com.example.database.CardPile
 import com.example.database.CardRepository
 import com.example.database.FlashCard
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,8 @@ class CardViewModel(application: Application) : AndroidViewModel(application) {
     fun insert(card: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(card)
     }
+
+    fun insert(pile: CardPile) = viewModelScope.launch(Dispatchers.IO) { repository.insert(pile) }
 
     fun initAllCards(label: String) {
         repository.setSelectedLabel(label)

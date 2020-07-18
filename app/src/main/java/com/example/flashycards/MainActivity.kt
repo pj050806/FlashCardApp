@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.ViewModel.CardViewModel
+import com.example.database.CardPile
 import com.example.database.FlashCard
 import com.example.flashycards.databinding.AddCardBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -53,6 +54,11 @@ class MainActivity : AppCompatActivity() {
     fun insertNewCard(front: String, back: String, label: String, color: Int) {
         val newCard = FlashCard(front, back, label, color)
         viewModel.insert(newCard)
+    }
+
+    fun insertNewPile(label: String) {
+        val pile = CardPile(label)
+        viewModel.insert(pile)
     }
 
     private fun newCardAlert() {

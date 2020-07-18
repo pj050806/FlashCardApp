@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [FlashCard::class], version = 1, exportSchema = false)
+@Database(entities = [FlashCard::class, CardPile::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun flashCardDao(): FlashCardDao
 
@@ -36,8 +36,10 @@ abstract class AppDatabase : RoomDatabase() {
         suspend fun populateDatabase(flashCardDao: FlashCardDao) {
             //flashCardDao.deleteAll()
 
-            val firstCard = FlashCard("Wort1 vorn", "Wort1 hinten", "Testwörter1")
-            val secondCard = FlashCard("Wort2 vorn", "Wort2 hinten", "Testwörter1")
+            val pile = CardPile("TestWörter")
+            val firstCard = FlashCard("Wort1 vorn", "Wort1 hinten", pile.label)
+            val secondCard = FlashCard("Wort2 vorn", "Wort2 hinten", pile.label)
+            flashCardDao.insert(pile)
             flashCardDao.insert(firstCard)
             println("first insert")
             flashCardDao.insert(secondCard)
